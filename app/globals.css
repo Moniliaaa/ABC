@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Update the root colors to have a dark theme by default */
+:root {
+  --background: 0 0% 10%; /* Dark background */
+  --foreground: 210 40% 98%;
+  --card: 0 0% 15%; /* Dark card background */
+  --card-foreground: 210 40% 98%;
+  --popover: 0 0% 15%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Linear Roulette Styles */
+.linear-roulette-container {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.linear-roulette-strip {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  left: 0;
+  transition: transform 0.5s ease;
+}
+
+.linear-roulette-spinning {
+  animation: linear-spin 4s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
+}
+
+@keyframes linear-spin {
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-500px);
+  }
+  90% {
+    transform: translateX(var(--final-position, -1500px));
+  }
+  100% {
+    transform: translateX(var(--final-position, -1500px));
+  }
+}
+
+.linear-roulette-item {
+  flex: 0 0 100px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.linear-roulette-indicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.linear-roulette-arrow {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #ff0000;
+}
+
+/* Add shine effect */
+.linear-roulette-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+/* 3D Wheel Styles - Based on the video */
+.wheel-scene {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+  margin: 0 auto;
+}
+
+.wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(-20deg) rotateY(0);
+  transition: transform 0.5s;
+}
+
+.wheel-spinning {
+  animation: spin-3d 6s cubic-bezier(0.3, 0.1, 0.3, 1) forwards;
+}
+
+@keyframes spin-3d {
+  0% {
+    transform: rotateX(-20deg) rotateY(0);
+  }
+  100% {
+    transform: rotateX(-20deg) rotateY(var(--end-y, 1800deg));
+  }
+}
+
+.wheel-segment {
+  position: absolute;
+  width: 80px;
+  height: 240px;
+  left: 50%;
+  top: 50%;
+  margin-left: -40px;
+  margin-top: -120px;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  background-color: #f5f5f5;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.wheel-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+}
+
+/* Wheel caps */
+.wheel-cap {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  left: 50%;
+  top: 50%;
+  margin-left: -120px;
+  margin-top: -120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #333 0%, #111 70%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.wheel-cap-front {
+  transform: rotateY(0) translateZ(40px);
+}
+
+.wheel-cap-back {
+  transform: rotateY(180deg) translateZ(40px);
+}
+
+/* Add shine effect to wheel */
+.wheel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 100%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
